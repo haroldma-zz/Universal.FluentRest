@@ -18,28 +18,19 @@ namespace Universal.FluentRest.Extensions
 
         public static T Segment<T>(this T restObject, string name, string value) where T : RestClient
         {
-            if (restObject.UrlSegments.ContainsKey(name))
-                restObject.UrlSegments[name] = value;
-            else
-                restObject.UrlSegments.Add(name, value);
+            restObject.UrlSegments[name] = value;
             return restObject;
         }
 
         public static T Query<T>(this T restObject, string name, object value) where T : RestClient
         {
-            if (restObject.QueryParameters.ContainsKey(name))
-                restObject.QueryParameters[name] = value;
-            else
-                restObject.QueryParameters.Add(name, value);
+            restObject.QueryParameters[name] = value;
             return restObject;
         }
 
         public static T Parameter<T>(this T restObject, string name, string value) where T : RestClient
         {
-            if (restObject.Parameters.ContainsKey(name))
-                restObject.Parameters[name] = value;
-            else
-                restObject.Parameters.Add(name, value);
+            restObject.Parameters[name] = value;
             return restObject;
         }
 
