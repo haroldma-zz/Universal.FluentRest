@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Universal.FluentRest.Deserializers;
 
@@ -32,6 +33,15 @@ namespace Universal.FluentRest.Http
         public HttpMethod Method { get; set; } = HttpMethod.Get;
         public Dictionary<string, string> UrlSegments { get; }
         public Dictionary<string, string> Parameters { get; }
+
+        /// <summary>
+        ///     Gets or sets the content of the body. (Will be serialized as JSON)
+        /// </summary>
+        /// <value>
+        ///     The content of the body.
+        /// </value>
+        public object RequestContent { get; set; }
+
         public Dictionary<string, object> QueryParameters { get; }
         public Dictionary<string, string> Headers { get; }
         public Dictionary<string, IDeserializer> ContentHandlers { get; }
@@ -44,10 +54,18 @@ namespace Universal.FluentRest.Http
                                           Method != HttpMethod.Delete;
                 using (var message = new HttpRequestMessage(Method, CreateUri(supportsBodyContent)))
                 {
-                    if (supportsBodyContent && Parameters.Count > 0)
+                    if (supportsBodyContent)
                     {
-                        var urlEncodedContent = new FormUrlEncodedContent(Parameters);
-                        message.Content = urlEncodedContent;
+                        if (RequestContent != null)
+                        {
+                            var body = new JsonSerializer().Serialize(RequestContent);
+                            message.Content = new StringContent(body, Encoding.UTF8, "application/json");
+                        }
+                        else if (Parameters.Count > 0)
+                        {
+                            var urlEncodedContent = new FormUrlEncodedContent(Parameters);
+                            message.Content = urlEncodedContent;
+                        }
                     }
 
                     foreach (var header in Headers)

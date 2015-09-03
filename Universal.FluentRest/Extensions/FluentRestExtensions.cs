@@ -6,13 +6,16 @@ namespace Universal.FluentRest.Extensions
 {
     public static class FluentRestExtensions
     {
+        public static T RequestContent<T>(this T restObject, object value) where T : RestClient
+        {
+            restObject.RequestContent = value;
+            return restObject;
+        }
+
         public static T Deserializer<T>(this T restObject, string contentType,
             IDeserializer deserializer) where T : RestClient
         {
-            if (restObject.ContentHandlers.ContainsKey(contentType))
-                restObject.ContentHandlers[contentType] = deserializer;
-            else
-                restObject.ContentHandlers.Add(contentType, deserializer);
+            restObject.ContentHandlers[contentType] = deserializer;
             return restObject;
         }
 
