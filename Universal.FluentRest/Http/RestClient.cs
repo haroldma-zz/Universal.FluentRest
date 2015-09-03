@@ -46,7 +46,19 @@ namespace Universal.FluentRest.Http
         public Dictionary<string, string> Headers { get; }
         public Dictionary<string, IDeserializer> ContentHandlers { get; }
 
+        public async Task<RestResponse> FetchResponseAsync()
+        {
+            using (var response = await InternalFetchResponseAsync().ConfigureAwait(false))
+                return new RestResponse(response);
+        }
+
         public async Task<RestResponse<T>> FetchResponseAsync<T>()
+        {
+            using (var response = await InternalFetchResponseAsync().ConfigureAwait(false))
+                return await CreateResponseAsync<T>(response).ConfigureAwait(false);
+        }
+
+        protected async Task<HttpResponseMessage> InternalFetchResponseAsync()
         {
             using (var client = new HttpClient())
             {
@@ -71,8 +83,7 @@ namespace Universal.FluentRest.Http
                     foreach (var header in Headers)
                         message.Headers.TryAddWithoutValidation(header.Key, header.Value);
 
-                    using (var response = await client.SendAsync(message).ConfigureAwait(false))
-                        return await CreateResponseAsync<T>(response).ConfigureAwait(false);
+                    return await client.SendAsync(message).ConfigureAwait(false);
                 }
             }
         }

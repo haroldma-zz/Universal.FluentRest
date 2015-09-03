@@ -1,17 +1,25 @@
-<?xml version="1.0"?>
-<package >
-  <metadata>
-    <id>Universal.FluentRest</id>
-    <version>1.0.0.0-beta1</version>
-    <title>Universal.FluentRest</title>
-    <authors>Harold Martinez-Molina</authors>
-    <owners>Harold Martinez-Molina</owners>
-    <licenseUrl>https://raw.githubusercontent.com/zumicts/Universal.FluentRest/master/LICENSE</licenseUrl>
-    <projectUrl>http://github.com/zumicts/Universal.FluentRest</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Rest library for consuming apis in a fluent and strong typed manner.</description>
-    <releaseNotes>Initial pre-release.</releaseNotes>
-    <copyright>Copyright 2015</copyright>
-    <tags>rest api universal uwp windows10</tags>
-  </metadata>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+    <metadata>
+        <id>Universal.FluentRest</id>
+        <version>1.0.0-beta4</version>
+        <title>Universal.FluentRest</title>
+        <authors>Harold Martinez-Molina</authors>
+        <owners>Harold Martinez-Molina</owners>
+        <licenseUrl>https://raw.githubusercontent.com/zumicts/Universal.FluentRest/master/LICENSE</licenseUrl>
+        <projectUrl>http://github.com/zumicts/Universal.FluentRest</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Rest library for consuming apis in a fluent and strong typed manner.</description>
+        <releaseNotes>Fix not resolving.</releaseNotes>
+        <copyright>Copyright 2015</copyright>
+        <tags>rest api universal uwp windows10</tags>
+        <dependencies>
+            <dependency id="Newtonsoft.Json" version="7.0.1" />
+            <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.0.0" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="content\Properties\Universal.FluentRest.rd.xml" target="content\Properties\Universal.FluentRest.rd.xml" />
+        <file src="lib\.NETCore50\Universal.FluentRest.dll" target="lib\.NETCore50\Universal.FluentRest.dll" />
+    </files>
 </package>

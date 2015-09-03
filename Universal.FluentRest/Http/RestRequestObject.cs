@@ -9,4 +9,12 @@ namespace Universal.FluentRest.Http
             return FetchResponseAsync<T>();
         }
     }
+
+    public class RestRequestObject : RestClient
+    {
+        public virtual Task<RestResponse> ToResponseAsync()
+        {
+            return FetchResponseAsync();
+        }
+    }
 }
