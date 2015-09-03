@@ -2,17 +2,17 @@ using Newtonsoft.Json;
 
 namespace Universal.FluentRest.Deserializers
 {
-    public class JsonDeserializer : IDeserializer
+    public class JsonSerializer : ISerializer
     {
-        public T Deserialize<T>(string text)
+        public string Serialize(object obj)
         {
             try
             {
-                return JsonConvert.DeserializeObject<T>(text);
+                return JsonConvert.SerializeObject(obj);
             }
             catch
             {
-                return default(T);
+                return null;
             }
         }
     }

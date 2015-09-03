@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Universal.FluentRest.Deserializers;
@@ -14,23 +15,26 @@ namespace Universal.FluentRest.Http
             QueryParameters = new Dictionary<string, object>();
             Parameters = new Dictionary<string, string>();
             Headers = new Dictionary<string, string>();
-            Deserializers = new Dictionary<string, IDeserializer>
+            ContentHandlers = new Dictionary<string, IDeserializer>
             {
+                {"*", new JsonDeserializer()},
+                {"text/xml", new DotNetXmlDeserializer()},
+                {"application/xml", new DotNetXmlDeserializer()},
                 {"application/json", new JsonDeserializer()},
-                {"text/json", new JsonDeserializer()}
+                {"text/json", new JsonDeserializer()},
+                {"text/x-json", new JsonDeserializer()},
+                {"text/javascript", new JsonDeserializer()}
             };
         }
 
-        public IDeserializer DefaultDeserializer { get; set; } = new JsonDeserializer();
-
-        public bool ParseOnlyOnSuccess { get; set; }
+        public bool DeserializeOnError { get; set; } = true;
         public string Url { get; set; }
         public HttpMethod Method { get; set; } = HttpMethod.Get;
         public Dictionary<string, string> UrlSegments { get; }
         public Dictionary<string, string> Parameters { get; }
         public Dictionary<string, object> QueryParameters { get; }
         public Dictionary<string, string> Headers { get; }
-        public Dictionary<string, IDeserializer> Deserializers { get; }
+        public Dictionary<string, IDeserializer> ContentHandlers { get; }
 
         public async Task<RestResponse<T>> FetchResponseAsync<T>()
         {
@@ -49,35 +53,35 @@ namespace Universal.FluentRest.Http
                     foreach (var header in Headers)
                         message.Headers.TryAddWithoutValidation(header.Key, header.Value);
 
-                    using (var response = await client.SendAsync(message))
-                        return await CreateResponseAsync<T>(response);
+                    using (var response = await client.SendAsync(message).ConfigureAwait(false))
+                        return await CreateResponseAsync<T>(response).ConfigureAwait(false);
                 }
             }
         }
 
         protected virtual async Task<RestResponse<T>> CreateResponseAsync<T>(HttpResponseMessage response)
         {
-            if (ParseOnlyOnSuccess && !response.IsSuccessStatusCode)
+            if (!DeserializeOnError && !response.IsSuccessStatusCode)
                 return new RestResponse<T>(response, default(T));
 
-            var text = await response.Content.ReadAsStringAsync();
-            var derserilizer = GetDeserializer(response.Content.Headers.ContentType?.MediaType);
+            var text = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var derserilizer = GetHandler(response.Content.Headers.ContentType?.MediaType);
             var derialized = derserilizer.Deserialize<T>(text);
             return new RestResponse<T>(response, derialized);
         }
 
-        protected virtual IDeserializer GetDeserializer(string contentType)
+        protected virtual IDeserializer GetHandler(string contentType)
         {
             IDeserializer deserializer;
-            Deserializers.TryGetValue(contentType, out deserializer);
-            return deserializer ?? DefaultDeserializer;
+            ContentHandlers.TryGetValue(contentType, out deserializer);
+            return deserializer ?? ContentHandlers["*"];
         }
 
         protected virtual Uri CreateUri(bool supportsBody)
         {
             foreach (var urlSegment in UrlSegments)
             {
-                Url = Url.Replace($"{{{urlSegment.Key}}}", urlSegment.Value);
+                Url = Url.Replace($"{{{urlSegment.Key}}}", WebUtility.UrlEncode(urlSegment.Value));
             }
 
             foreach (var parameter in QueryParameters)

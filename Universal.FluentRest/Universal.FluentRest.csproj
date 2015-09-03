@@ -113,8 +113,12 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deserializers\DotNetXmlSerializer.cs" />
     <Compile Include="Deserializers\IDeserializer.cs" />
+    <Compile Include="Deserializers\ISerializer.cs" />
     <Compile Include="Deserializers\JsonDeserializer.cs" />
+    <Compile Include="Deserializers\DotNetXmlDeserializer.cs" />
+    <Compile Include="Deserializers\JsonSerializer.cs" />
     <Compile Include="Extensions\FluentRestExtensions.cs" />
     <Compile Include="Http\RestClient.cs" />
     <Compile Include="Http\RestObject.cs" />

@@ -9,10 +9,10 @@ namespace Universal.FluentRest.Extensions
         public static T Deserializer<T>(this T restObject, string contentType,
             IDeserializer deserializer) where T : RestClient
         {
-            if (restObject.Deserializers.ContainsKey(contentType))
-                restObject.Deserializers[contentType] = deserializer;
+            if (restObject.ContentHandlers.ContainsKey(contentType))
+                restObject.ContentHandlers[contentType] = deserializer;
             else
-                restObject.Deserializers.Add(contentType, deserializer);
+                restObject.ContentHandlers.Add(contentType, deserializer);
             return restObject;
         }
 
