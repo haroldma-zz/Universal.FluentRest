@@ -9,7 +9,7 @@ Rest library for consuming apis in a fluent and strong typed manner.
     /// <summary>
     /// Returns all the IMDb movie reviews for the specified movie.
     /// </summary>
-    public class MovieReviewsRequest : RestObject<YtsResponse<YtsReviewsData>>
+    public class MovieReviewsRequest : RestRequestObject<YtsReviewsResponse>
     {
         public MovieReviewsRequest(uint movieId)
         {
@@ -23,7 +23,5 @@ Rest library for consuming apis in a fluent and strong typed manner.
 
 ## TODO
 
-- [x] Xml deserializer
-- [x] Allow posting JSON content.
 - [ ] Allow posting XML content.
 - [ ] OAuth
