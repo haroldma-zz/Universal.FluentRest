@@ -5,4 +5,5 @@ Rest library for consuming apis in a fluent and strong typed manner.
 ## TODO
 
 - [ ] OAuth
-- [ ] Xml deserializer
+- [x] Xml deserializer
+- [ ] Allow posting JSON and XML content.
