@@ -121,7 +121,7 @@
     <Compile Include="Deserializers\JsonSerializer.cs" />
     <Compile Include="Extensions\FluentRestExtensions.cs" />
     <Compile Include="Http\RestClient.cs" />
-    <Compile Include="Http\RestObject.cs" />
+    <Compile Include="Http\RestRequestObject.cs" />
     <Compile Include="Http\RestResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Properties\Universal.FluentRest.rd.xml" />

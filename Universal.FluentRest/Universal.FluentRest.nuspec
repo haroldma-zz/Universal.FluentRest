@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Universal.RestFluent</id>
-    <version>1.0.1</version>
-    <title>Universal.RestFluent</title>
+    <id>Universal.FluentRest</id>
+    <version>1.0.0.0-beta1</version>
+    <title>Universal.FluentRest</title>
     <authors>Harold Martinez-Molina</authors>
     <owners>Harold Martinez-Molina</owners>
     <licenseUrl>https://raw.githubusercontent.com/zumicts/Universal.FluentRest/master/LICENSE</licenseUrl>

@@ -6,7 +6,7 @@ namespace Universal.FluentRest.Extensions
 {
     public static class FluentRestExtensions
     {
-        public static T RequestContent<T>(this T restObject, object value) where T : RestClient
+        public static T Content<T>(this T restObject, object value) where T : RestClient
         {
             restObject.RequestContent = value;
             return restObject;
