@@ -2,6 +2,10 @@
 
 Rest library for consuming apis in a fluent and strong typed manner.
 
+## Instaling
+
+    Install-Package Universal.FluentRest -Pre
+
 ## Example
 
 *Request object:*
